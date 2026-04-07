@@ -11,9 +11,7 @@ app.get("/weather", async (req, res) => {
   }
 
   const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
-    `&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,surface_pressure,precipitation,weather_code,uv_index` +
-    `&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,uv_index,cape` +
-    `&forecast_days=2&wind_speed_unit=kmh&timezone=auto`;
+    `&current=temperature_2m`;
 
   try {
     const r = await fetch(url);
@@ -24,7 +22,5 @@ app.get("/weather", async (req, res) => {
   }
 });
 
-// 👇 DODAJ TO (ważne dla Render!)
 const PORT = process.env.PORT || 3000;
-
-app.listen(PORT, () => console.log("API działa na porcie", PORT));
+app.listen(PORT, () => console.log("API działa"));
