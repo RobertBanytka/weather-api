@@ -6,9 +6,13 @@ const app = express();
 app.get("/weather", async (req, res) => {
   const { lat, lon } = req.query;
 
-  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}`+
-    `&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,surface_pressure,precipitation,weather_code,uv_index`+
-    `&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,uv_index,cape`+
+  if (!lat || !lon) {
+    return res.status(400).json({ error: "Brak lat/lon" });
+  }
+
+  const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}` +
+    `&current=temperature_2m,relative_humidity_2m,wind_speed_10m,wind_direction_10m,surface_pressure,precipitation,weather_code,uv_index` +
+    `&hourly=temperature_2m,precipitation_probability,precipitation,weather_code,wind_speed_10m,uv_index,cape` +
     `&forecast_days=2&wind_speed_unit=kmh&timezone=auto`;
 
   try {
@@ -20,4 +24,7 @@ app.get("/weather", async (req, res) => {
   }
 });
 
-app.listen(3000, () => console.log("API działa"));
+// 👇 DODAJ TO (ważne dla Render!)
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => console.log("API działa na porcie", PORT));
